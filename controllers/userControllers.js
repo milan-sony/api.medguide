@@ -3,9 +3,7 @@ import geminiModel from "../configs/geminiConfig.js"
 // Get medicine info
 export const medicineInfo = async (req, res) => {
     try {
-        const medicineName = req.body
-
-        console.log("Medicine name: ", req.body)
+        const medicineName = req.body.medicineName
 
         const prompt = `
         You are a medical assistant providing accurate and reliable information about medicines.
@@ -27,7 +25,7 @@ export const medicineInfo = async (req, res) => {
         "description": "...",
         "uses": ["...", "..."],
         "dosage": "...",
-        "side_effects": ["...", "..."],
+        "side effects": ["...", "..."],
         "warnings": ["...", "..."],
         "alternatives": ["...", "..."]
         }
@@ -36,7 +34,17 @@ export const medicineInfo = async (req, res) => {
         `
 
         const result = await geminiModel.generateContent(prompt)
-        console.log("Gemini Response: ", result.response.text())
+        const resText = result.response.text()
+
+        // Convert the response into JSON format
+        const jsonStart = resText.indexOf("{");
+        const jsonEnd = resText.lastIndexOf("}");
+        const jsonString = resText.substring(jsonStart, jsonEnd + 1);
+
+        return res.status(200).json({
+            status: 200,
+            message: jsonString
+        })
 
     } catch (error) {
         console.error("Error in getting med info, ", error)
