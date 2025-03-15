@@ -1,8 +1,8 @@
 import express from "express"
-import { getMedicineInfo } from "../../controllers/userControllers.js"
+import { medicineInfo } from "../../controllers/userControllers.js"
 
 const userRoutes = express.Router()
 
-userRoutes.get("/getmedsinfo", getMedicineInfo)
+userRoutes.post("/getmedsinfo", medicineInfo)
 
 export default userRoutes
