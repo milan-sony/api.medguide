@@ -1,1 +1,1 @@
-API - MediDesc
+API - MedDesc
