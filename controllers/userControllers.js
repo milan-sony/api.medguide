@@ -36,15 +36,13 @@ export const medicineInfo = async (req, res) => {
         const result = await geminiModel.generateContent(prompt)
         const resText = result.response.text()
 
-        // Convert the response into JSON format
-        const jsonStart = resText.indexOf("{");
-        const jsonEnd = resText.lastIndexOf("}");
-        const jsonString = resText.substring(jsonStart, jsonEnd + 1);
+        // Convert the response into string format
+        const stringStart = resText.indexOf("{");
+        const stringEnd = resText.lastIndexOf("}");
+        const jsonString = resText.substring(stringStart, stringEnd + 1);
 
+        // Convert the string to JSON
         const jsonMedData = JSON.parse(jsonString)
-
-        console.log("jsonData", jsonMedData)
-        
 
         return res.status(200).json({
             status: 200,
@@ -53,5 +51,11 @@ export const medicineInfo = async (req, res) => {
 
     } catch (error) {
         console.error("Error in getting med info, ", error)
+
+        return res.status(500).json({
+            status: 500,
+            message: "Error in getting med info",
+            error: error
+        })
     }
 }
