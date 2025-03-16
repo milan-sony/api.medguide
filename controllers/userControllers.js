@@ -41,9 +41,14 @@ export const medicineInfo = async (req, res) => {
         const jsonEnd = resText.lastIndexOf("}");
         const jsonString = resText.substring(jsonStart, jsonEnd + 1);
 
+        const jsonMedData = JSON.parse(jsonString)
+
+        console.log("jsonData", jsonMedData)
+        
+
         return res.status(200).json({
             status: 200,
-            message: jsonString
+            message: jsonMedData
         })
 
     } catch (error) {
