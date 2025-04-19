@@ -1,28 +1,9 @@
 import geminiModel from "../configs/geminiConfig.js"
-import MedInfo from "../models/medicineModel.js"
 
 // Get medicine info
 export const medicineInfo = async (req, res) => {
     try {
         const medicineName = req.body.medicineName
-
-        // Search medicine info on DB
-        const existInDB = await MedInfo.findOne({ name: medicineName })
-
-        if (existInDB) {
-            console.log("existInDB", existInDB)
-            return res.status(400).json({
-                status: 400,
-                message: "Med Info found on db",
-                medName: existInDB.name,
-                medDesc: existInDB.description,
-                medUses: existInDB.uses,
-                medDosage: existInDB.dosage,
-                medSideEffects: existInDB.sideeffects,
-                medWarnings: existInDB.warnings,
-                medAlternatives: existInDB.alternatives
-            })
-        }
 
         const prompt = `
         You are a medical assistant providing accurate and reliable information about medicines.
@@ -62,18 +43,6 @@ export const medicineInfo = async (req, res) => {
 
         // Convert the string to JSON
         const jsonMedData = JSON.parse(jsonString)
-
-        const newMedInfo = new MedInfo({
-            name: jsonMedData.name,
-            description: jsonMedData.description,
-            uses: jsonMedData.uses,
-            dosage: jsonMedData.dosage,
-            sideeffects: jsonMedData.sideeffects,
-            warnings: jsonMedData.warnings,
-            alternatives: jsonMedData.alternatives
-        })
-
-        await newMedInfo.save()
 
         return res.status(200).json({
             status: 200,
