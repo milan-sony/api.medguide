@@ -2,12 +2,16 @@ import express from "express"
 import dotenv from "dotenv"
 import routes from "./routes/index.js"
 import bodyParser from "body-parser"
+import connectDB from "./configs/db.js"
 
 // config .env
 dotenv.config()
 
 // creates an express app
 const app = express()
+
+// connect with DB
+connectDB()
 
 // body parser
 // parse application/x-www-form-urlencoded
