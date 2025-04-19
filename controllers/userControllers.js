@@ -1,4 +1,5 @@
 import geminiModel from "../configs/geminiConfig.js"
+import MedInfo from "../models/medicineModel.js"
 
 // Get medicine info
 export const medicineInfo = async (req, res) => {
@@ -25,7 +26,7 @@ export const medicineInfo = async (req, res) => {
         "description": "...",
         "uses": ["...", "..."],
         "dosage": "...",
-        "side effects": ["...", "..."],
+        "sideeffects": ["...", "..."],
         "warnings": ["...", "..."],
         "alternatives": ["...", "..."]
         }
@@ -43,6 +44,18 @@ export const medicineInfo = async (req, res) => {
 
         // Convert the string to JSON
         const jsonMedData = JSON.parse(jsonString)
+
+        const newMedInfo = new MedInfo({
+            name: jsonMedData.name,
+            description: jsonMedData.description,
+            uses: jsonMedData.uses,
+            dosage: jsonMedData.dosage,
+            sideeffects: jsonMedData.sideeffects,
+            warnings: jsonMedData.warnings,
+            alternatives: jsonMedData.alternatives
+        })
+
+        await newMedInfo.save()
 
         return res.status(200).json({
             status: 200,

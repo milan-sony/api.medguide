@@ -8,16 +8,19 @@ const medInfoSchema = new mongoose.Schema({
         type: String,
     },
     uses: {
-        type: String,
+        type: [Object], blackbox: true,
     },
     dosage: {
         type: String,
     },
+    sideeffects: {
+        type: [Object], blackbox: true,
+    },
     warnings: {
-        type: String,
+        type: [Object], blackbox: true,
     },
     alternatives: {
-        type: String,
+        type: [Object], blackbox: true,
     },
 },
     {
