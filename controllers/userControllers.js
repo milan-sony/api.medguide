@@ -6,6 +6,24 @@ export const medicineInfo = async (req, res) => {
     try {
         const medicineName = req.body.medicineName
 
+        // Search medicine info on DB
+        const existInDB = await MedInfo.findOne({ name: medicineName })
+
+        if (existInDB) {
+            console.log("existInDB", existInDB)
+            return res.status(400).json({
+                status: 400,
+                message: "Med Info found on db",
+                medName: existInDB.name,
+                medDesc: existInDB.description,
+                medUses: existInDB.uses,
+                medDosage: existInDB.dosage,
+                medSideEffects: existInDB.sideeffects,
+                medWarnings: existInDB.warnings,
+                medAlternatives: existInDB.alternatives
+            })
+        }
+
         const prompt = `
         You are a medical assistant providing accurate and reliable information about medicines.
         Given a medicine name, provide a detailed description, including:
